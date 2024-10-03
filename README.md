@@ -5,19 +5,19 @@
 
 ### 
 ````sql
-SHOW DATABASES
+SHOW DATABASE
 ````
 - Mostrar todas las bases de datos
 
 ### 
 ````sql
-CREATE DATABASES (nombre db)
+CREATE DATABASE (nombre db)
 ````
 - Crear base de datos
 
 ### 
 ````sql
-DROP DATABASES (nombre db)
+DROP DATABASE (nombre db)
 ````
 - borra una base de datos
 
