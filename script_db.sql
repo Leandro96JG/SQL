@@ -1,0 +1,4 @@
+-- Para ver todas las base de datos 'show databases'
+-- Para crear base de datos 'create databases'
+-- Para borrar base de datos 'drop databases'
+-- Se pueden usar operadores de sentencias como 'if exists' y 'if not exists'
