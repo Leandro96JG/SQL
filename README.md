@@ -74,7 +74,7 @@
 
 - Leer todos los datos de una tabla: **SELECT * FROM (tabla)**
 
-## Funciones y Operadores en DB
+## Funciones, Operadores Y Clausulas en DB
 
 ### COUNT()
 - Contador segun una condición. Ej: Todos los usuarios de una db: **SELECT COUNT(*) FROM usuarios**
@@ -82,3 +82,55 @@
 ### *AS*
 - Para darle un _Alias_ a cada operacion hecha por una funcion de db podemos usar el operador **AS** ej: **SELECT COUNT(*) AS total_usuarios FROM usuarios**
 
+### WHERE
+- Hacer algo cuando se cumpla una condicion Ej: **SELECT * FROM usuarios WHERE nombre="Leandro";**
+
+### IN
+- Para buscar segun varios datos. Ej: **SELECT * FROM usuarios WHERE nombre IN (nombres de personas a buscar el registro);** Esto devuelve las comunas que cumplan con los datos agregados.
+
+### LIKE
+- Para buscar un patron especifico dentro de una columna en una consulta. Se definen usando dos comodines principales.
+1. **%**: Coincide con cualquier secuencia de caracteres. Puede ser usado al inicio o al final de una cadena.
+- *'A%'* cualquier valor que comience con 'A'. Ej: **SELECT * FROM empleados WHERE nombre LIKE 'A%'**
+- *'%A'* cualquier valor que termine con 'A'.
+- *'%A%'* cualquier valor que contenga con 'A'.
+
+2. **_**:(Guion Bajo) Coicide con un **solo caracter**.
+- *'A_n_'* Coincidirá con cualquier cadena que tenga cuatro caracteres, donde el primero sea 'A', el segundo sea cualquier carácter, el tercero sea 'n' y el cuarto sea cualquier carácter (como 'Ana', 'Aní').
+
+- Operador **NOT LIKE** hace lo inverso.
+
+### Operadores Relacionales
+
+- **Los operadores relacionales** en SQL son utilizados para realizar comparaciones entre valores y son fundamentales en las consultas para filtrar o evaluar datos.
+
+- **Principales Operadores Relacionales**
+1. **=** (Igual a):
+- Compara si dos valores son iguales.
+2. **<> o !=** (diferente de):
+- Compara si dos valores son diferentes.
+3. **< o >** (Mayo que o Menor que):
+- Compara si el valor de la izq es menor o mayor que el de la derecha
+4. **BEETWEEN** (Entre un rango de valores):
+- Verifica si un valor está entre dos valores, inclusivo. Ej: **SELECT * FROM usuarios WHERE edad BETWEEN 20 AND 29**
+5. **IS NULL** y **IS NOT NULL** (Comparación de valores nulos):
+- Verifica si un valor es **NULL** o no es **NULL**. Ej: **SELECT * FROM usuarios WHERE direccion IS NULL**
+
+### Operadores Logicos
+
+- Se usan para combinar multiples condiciones en una consulta. Permiten aplicar lógica condicional (como "y","o","no") para filtrar resultados basados en múltiples criterios.
+
+- **Principales Operadores Lógicos en SQL:**
+
+1. **AND** (Y lógico):
+- Devuelve **TRUE** si ambas condiciones son verdaderas.
+- Cobinar múltiples condiciones en una consulta. Ej: **SELECT * FROM usuarios WHERE edad > 26 AND nombre LIKE 'LE%'** Devuelve todos los valores mayores a 26 y que el nombre empiece con 'LE'.
+
+2. **OR** (O Lógico):
+- Devuelve **TRUE** si alguna de las condiciones es verdadera.
+
+3. **NOT** (Negación Lógica):
+- Invierte el resultado de una condición, devolviendo **TRUE** cuando la condición es **FALSE** y viceversa.
+
+- **NOTA**: En consultas más complejas, es recomendable usar parentisis. Ej: 
+**SELECT * FROM empleados WHERE (salario > 2000 OR departamento_id = 3) AND NOT nombre = 'Carlos';**
