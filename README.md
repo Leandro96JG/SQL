@@ -1,15 +1,24 @@
-# Curso Sql - Jonmircha
+# SQL - Jonmircha
 ![SQL](mysql.svg "SQL")
 
 ## Comandos Principales
 
-### ``SHOW DATABASES``
+### 
+````sql
+SHOW DATABASES
+````
 - Mostrar todas las bases de datos
 
-### ``CREATE DATABASES (nombre db)``
+### 
+````sql
+CREATE DATABASES (nombre db)
+````
 - Crear base de datos
 
-### ``DROP DATABASES (nombre db)``
+### 
+````sql
+DROP DATABASES (nombre db)
+````
 - borra una base de datos
 
 
@@ -25,12 +34,12 @@
 
 - Normalmente esto lo hace quien está administrando la base de datos, para otorgar permisos a quienes quieran trabajar con nuestra db 
 
-````
+````sql
 CREATE USER '(usuario)'@'(dominiodb)' IDENTIFIED BY '(contraseña)'
 ````
 
 - Para ingresar a la base de datos con el nombre de usuario creado desde la terminal:
-````
+````sql
 'mysql -u (usuario) -p'
 ````
 e ingresar la contraseña asignada
@@ -40,54 +49,54 @@ e ingresar la contraseña asignada
 ### Algunos comandos para dar privilegios
 
 - Otorgar todos los privilegios al usuario asignado.
-````
+````sql
 GRANT ALL PRIVILEGES ON (Nombre DB) TO '(usuario)@(dominioDB)'
 ```` 
 
 - Unas vez asignado cualquier privilegio, por buena practica, es necesario actualizar nuestra base de datos. Para esto existe el siguiente comando:
-````
+````sql
 FLUSH PRIVILEGES
 ````
 
 - Ver los privilegios que tiene un usuario: 
-````
+````sql
 SHOW GRANTS FOR '(usuario)'@'(dominioDB)'
 ````
 
 - Para quitar privilegios 
-````
+````sql
 REVOKE ALL GRANT OPTION FROM '(usuario)@'(dominiodb)'
 ````
 
 - Eliminar usuario 
-````
+````sql
 DROP USER '(usuario)@'(dominiodb)'
 ````
 
 ## Tablas
 
 - Crear tabla: 
-````
+````sql
 CREATE TABLE (nombre)
 ````
 
 - Elegir nuestra db que vamos a trabajar: 
-````
+````sql
 USE (nombre db)
 ````
 
 - Ver tablas de la db: 
-````
+````sql
 SHOW TABLES
 ````
 
 - Crear una tabla: **CREATE nombreTabla (atributos con sus tipos de datos)**. Ej: 
-````
+````sql
 CREATE usuarios(nombre VARCHAR, correo VARCHAR)
 ````
 
 - Describir una tabla:
- ````
+ ````sql
  DESCRIBE (nombre de la tabla)
  ````
 
@@ -95,43 +104,43 @@ CREATE usuarios(nombre VARCHAR, correo VARCHAR)
 ### Agregar, Modificar o Eliminar Atributos De Una Tabla
 
 - Agregar atributos:
- ````
+ ````sql
  ALTER TABLE (tabla) ADD COLUMN (atributo + tipo de datos)
  ````
 
 - Modificar un tipo de datos:
- ````
+ ````sql
  ALTER TABLE (tabla) MODIFY (atributo existente + tipo de dato nuevo)
  ````
 
 - Renombrar un atributo de una tabla. 
-````
+````sql
 ALTER TABLE (tabla) RENAME COLUMN (atributo) TO (nuevo nombre)
 ````
 
 - Eliminar un atributo de una tabla. 
-````
+````sql
 ALTER TABLE (tabla) DROP COLUMN (atributo)
 ````
 
 ### CRUD de datos en una tabla
 
 - Agregar datos a una tabla:
- ````
+ ````sql
  INSERT INTO (tabla) VALUES (valores separados por comas)
  ````
 
 **NOTA:**
  _Usar este metodo puede ser una mala practica ya que hay que saber el orden que estan los datos, como buena practica se usa:_ 
 
-````
+````sql
 INSERT INTO (nombre de los atributos a ingresar datos)
 VALUES (datos a ingresar)
 ````
 - Recordar que los datos autoincrementables no es necesario asignarles valor.
 
 - Leer todos los datos de una tabla: 
-````
+````sql
 SELECT * FROM (tabla)
 ````
 
@@ -139,25 +148,25 @@ SELECT * FROM (tabla)
 
 ### ``COUNT()``
 - Contador segun una condición. Ej: Todos los usuarios de una db: 
-````
+````sql
 SELECT COUNT(*) FROM usuarios
 ````
 
 ### ``AS``
 - Para darle un _Alias_ a cada operacion hecha por una funcion de db podemos usar el operador **AS** ej: 
-````
+````sql
 SELECT COUNT(*) AS total_usuarios FROM usuarios
 ````
 
 ### ``WHERE``
 - Hacer algo cuando se cumpla una condicion Ej:
- ````
+ ````sql
  SELECT * FROM usuarios WHERE nombre="Leandro";
  ````
 
 ### ``IN``
 - Para buscar segun varios datos. Ej: 
-```
+```sql
 SELECT * FROM usuarios
 WHERE nombre
 IN (nombres de personas a buscar el registro)
@@ -168,7 +177,7 @@ IN (nombres de personas a buscar el registro)
 - Para buscar un patron especifico dentro de una columna en una consulta. Se definen usando dos comodines principales.
 1. ``%``: Coincide con cualquier secuencia de caracteres. Puede ser usado al inicio o al final de una cadena.
 - ``'A%'`` cualquier valor que comience con 'A'. Ej:
- ````
+ ````sql
 SELECT * FROM usuarios WHERE nombre LIKE 'A%'
 ````
 - ``'%A'`` cualquier valor que termine con 'A'.
@@ -192,12 +201,12 @@ SELECT * FROM usuarios WHERE nombre LIKE 'A%'
 - Compara si el valor de la izq es menor o mayor que el de la derecha
 4. ``BEETWEEN`` (Entre un rango de valores):
 - Verifica si un valor está entre dos valores, inclusivo. Ej: 
-````
+````sql
 SELECT * FROM usuarios WHERE edad BETWEEN 20 AND 29
 ````
 5. ``IS NULL`` y ``IS NOT NULL`` (Comparación de valores nulos):
 - Verifica si un valor es **NULL** o NO es **NULL**. Ej: 
-````
+````sql
 SELECT * FROM usuarios WHERE direccion IS NULL
 ````
 
@@ -222,7 +231,7 @@ SELECT * FROM usuarios WHERE direccion IS NULL
 - Invierte el resultado de una condición, devolviendo **TRUE** cuando la condición es **FALSE** y viceversa.
 
 - **NOTA**: _En consultas más complejas, es recomendable usar parentisis_:
-```` 
+```` sql
 SELECT * FROM empleados
 WHERE (salario > 2000 OR departamento_id = 3)
 AND NOT nombre = 'Carlos';
