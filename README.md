@@ -43,7 +43,9 @@
 
 - Eliminar usuario **DROP USER '(usuario)@'(dominiodb)'**
 
-## Crear Tablas En Nuestras Bases de Datos
+## Tablas
+
+- Crear tabla: **CREATE TABLE (nombre)**
 
 - Elegir nuestra db que vamos a trabajar: **USE (nombre db)**
 
@@ -54,8 +56,29 @@
 - Describir una tabla: **DESCRIBE (nombre de la tabla)**
 
 
-## Agregar, Modificar o Eliminar Datos De Una Tabla
+### Agregar, Modificar o Eliminar Atributos De Una Tabla
 
-- Agregar datos: **ALTER TABLE (tabla) ADD COLUMN (dato + tipo de datos)**
+- Agregar atributos: **ALTER TABLE (tabla) ADD COLUMN (atributo + tipo de datos)**
 
-- Modificar un tipo de datos: **ALTER TABLE (tabla) MODIFY (dato existente + tipo de dato nuevo)**
+- Modificar un tipo de datos: **ALTER TABLE (tabla) MODIFY (atributo existente + tipo de dato nuevo)**
+
+- Renombrar un atributo de una tabla. **ALTER TABLE (tabla) RENAME COLUMN (atributo) TO (nuevo nombre)**
+
+- Eliminar un atributo de una tabla. **ALTER TABLE (tabla) DROP COLUMN (atributo)**
+
+### CRUD de datos en una tabla
+
+- Agregar datos a una tabla: **INSERT INTO (tabla) VALUES (valores separados por comas)**. _Usar este metodo puede ser una mala practica ya que hay que saber el orden que estan los datos, como buena practica se usa:_ **INSERT INTO (nombre de los atributos a ingresar datos) VALUES (datos a ingresar)**
+
+- Recordar que los datos autoincrementables no es necesario asignarles valor.
+
+- Leer todos los datos de una tabla: **SELECT * FROM (tabla)**
+
+## Funciones y Operadores en DB
+
+### COUNT()
+- Contador segun una condición. Ej: Todos los usuarios de una db: **SELECT COUNT(*) FROM usuarios**
+
+### *AS*
+- Para darle un _Alias_ a cada operacion hecha por una funcion de db podemos usar el operador **AS** ej: **SELECT COUNT(*) AS total_usuarios FROM usuarios**
+
