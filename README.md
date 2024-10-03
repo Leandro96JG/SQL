@@ -1,120 +1,205 @@
 # Curso Sql - Jonmircha
+![SQL](mysql.svg "SQL")
 
 ## Comandos Principales
 
-### _Show databases_
+### ``SHOW DATABASES``
 - Mostrar todas las bases de datos
 
-### _Create databases (nombre db)_
+### ``CREATE DATABASES (nombre db)``
 - Crear base de datos
 
-### _Drop databases (nombre db)_
+### ``DROP DATABASES (nombre db)``
 - borra una base de datos
 
 
 ## Operadores De Sentencias
 
-### _IF EXISTS_
+### ``IF EXISTS``
 - Sí existe ejecutar script
 
-### _IF NOT EXISTS_
+### ``IF NOT EXISTS``
 - Sí no existe ejecutar script
 
 ## Crear Usuario Para Una BD
 
 - Normalmente esto lo hace quien está administrando la base de datos, para otorgar permisos a quienes quieran trabajar con nuestra db 
 
-- **CREATE USER '(_usuario_)'@'(_dominio_db_)' IDENTIFIED BY '(_contraseña_)'**
+````
+CREATE USER '(usuario)'@'(dominiodb)' IDENTIFIED BY '(contraseña)'
+````
 
 - Para ingresar a la base de datos con el nombre de usuario creado desde la terminal:
-**_'mysql -u (usuario) -p'_** e ingresar la contraseña asignada
+````
+'mysql -u (usuario) -p'
+````
+e ingresar la contraseña asignada
 
 - Esto no significa que nuestro usuario vaya a tener acceso a nuestras base de datos, para esto es necesario asignarles permisos
 
 ### Algunos comandos para dar privilegios
 
-- **GRANT ALL PRIVILEGES ON (_Nombre DB_) TO '_(usuario)_@(_dominioDB_)'** Otorga todos los privilegios al usuario asignado.
+- Otorgar todos los privilegios al usuario asignado.
+````
+GRANT ALL PRIVILEGES ON (Nombre DB) TO '(usuario)@(dominioDB)'
+```` 
 
-- Unas vez asignado cualquier privilegio, por buena practica, es necesario actualizar nuestra base de datos. Para esto existe el siguiente comando: **FLUSH PRIVILEGES**
+- Unas vez asignado cualquier privilegio, por buena practica, es necesario actualizar nuestra base de datos. Para esto existe el siguiente comando:
+````
+FLUSH PRIVILEGES
+````
 
-- Ver los privilegios que tiene un usuario: **SHOW GRANTS FOR '(usuario)'@'(dominioDB)'**
+- Ver los privilegios que tiene un usuario: 
+````
+SHOW GRANTS FOR '(usuario)'@'(dominioDB)'
+````
 
-- Para quitar privilegios **REVOKE ALL GRANT OPTION FROM '(usuario)@'(dominiodb)'**
+- Para quitar privilegios 
+````
+REVOKE ALL GRANT OPTION FROM '(usuario)@'(dominiodb)'
+````
 
-- Eliminar usuario **DROP USER '(usuario)@'(dominiodb)'**
+- Eliminar usuario 
+````
+DROP USER '(usuario)@'(dominiodb)'
+````
 
 ## Tablas
 
-- Crear tabla: **CREATE TABLE (nombre)**
+- Crear tabla: 
+````
+CREATE TABLE (nombre)
+````
 
-- Elegir nuestra db que vamos a trabajar: **USE (nombre db)**
+- Elegir nuestra db que vamos a trabajar: 
+````
+USE (nombre db)
+````
 
-- Ver tablas de la db: **SHOW TABLES**
+- Ver tablas de la db: 
+````
+SHOW TABLES
+````
 
-- Crear una tabla: *CREATE _nombreTabla_(_atributos con sus tipos de datos_)*. Ej: **CREATE usuarios(_nombre_ VARCHAR, _correo_ VARCHAR)**
+- Crear una tabla: **CREATE nombreTabla (atributos con sus tipos de datos)**. Ej: 
+````
+CREATE usuarios(nombre VARCHAR, correo VARCHAR)
+````
 
-- Describir una tabla: **DESCRIBE (nombre de la tabla)**
+- Describir una tabla:
+ ````
+ DESCRIBE (nombre de la tabla)
+ ````
 
 
 ### Agregar, Modificar o Eliminar Atributos De Una Tabla
 
-- Agregar atributos: **ALTER TABLE (tabla) ADD COLUMN (atributo + tipo de datos)**
+- Agregar atributos:
+ ````
+ ALTER TABLE (tabla) ADD COLUMN (atributo + tipo de datos)
+ ````
 
-- Modificar un tipo de datos: **ALTER TABLE (tabla) MODIFY (atributo existente + tipo de dato nuevo)**
+- Modificar un tipo de datos:
+ ````
+ ALTER TABLE (tabla) MODIFY (atributo existente + tipo de dato nuevo)
+ ````
 
-- Renombrar un atributo de una tabla. **ALTER TABLE (tabla) RENAME COLUMN (atributo) TO (nuevo nombre)**
+- Renombrar un atributo de una tabla. 
+````
+ALTER TABLE (tabla) RENAME COLUMN (atributo) TO (nuevo nombre)
+````
 
-- Eliminar un atributo de una tabla. **ALTER TABLE (tabla) DROP COLUMN (atributo)**
+- Eliminar un atributo de una tabla. 
+````
+ALTER TABLE (tabla) DROP COLUMN (atributo)
+````
 
 ### CRUD de datos en una tabla
 
-- Agregar datos a una tabla: **INSERT INTO (tabla) VALUES (valores separados por comas)**. _Usar este metodo puede ser una mala practica ya que hay que saber el orden que estan los datos, como buena practica se usa:_ **INSERT INTO (nombre de los atributos a ingresar datos) VALUES (datos a ingresar)**
+- Agregar datos a una tabla:
+ ````
+ INSERT INTO (tabla) VALUES (valores separados por comas)
+ ````
 
+**NOTA:**
+ _Usar este metodo puede ser una mala practica ya que hay que saber el orden que estan los datos, como buena practica se usa:_ 
+
+````
+INSERT INTO (nombre de los atributos a ingresar datos)
+VALUES (datos a ingresar)
+````
 - Recordar que los datos autoincrementables no es necesario asignarles valor.
 
-- Leer todos los datos de una tabla: **SELECT * FROM (tabla)**
+- Leer todos los datos de una tabla: 
+````
+SELECT * FROM (tabla)
+````
 
 ## Funciones, Operadores Y Clausulas en DB
 
-### COUNT()
-- Contador segun una condición. Ej: Todos los usuarios de una db: **SELECT COUNT(*) FROM usuarios**
+### ``COUNT()``
+- Contador segun una condición. Ej: Todos los usuarios de una db: 
+````
+SELECT COUNT(*) FROM usuarios
+````
 
-### *AS*
-- Para darle un _Alias_ a cada operacion hecha por una funcion de db podemos usar el operador **AS** ej: **SELECT COUNT(*) AS total_usuarios FROM usuarios**
+### ``AS``
+- Para darle un _Alias_ a cada operacion hecha por una funcion de db podemos usar el operador **AS** ej: 
+````
+SELECT COUNT(*) AS total_usuarios FROM usuarios
+````
 
-### WHERE
-- Hacer algo cuando se cumpla una condicion Ej: **SELECT * FROM usuarios WHERE nombre="Leandro";**
+### ``WHERE``
+- Hacer algo cuando se cumpla una condicion Ej:
+ ````
+ SELECT * FROM usuarios WHERE nombre="Leandro";
+ ````
 
-### IN
-- Para buscar segun varios datos. Ej: **SELECT * FROM usuarios WHERE nombre IN (nombres de personas a buscar el registro);** Esto devuelve las comunas que cumplan con los datos agregados.
+### ``IN``
+- Para buscar segun varios datos. Ej: 
+```
+SELECT * FROM usuarios
+WHERE nombre
+IN (nombres de personas a buscar el registro)
+```
+ Esto devuelve las comunas que cumplan con los datos agregados.
 
-### LIKE
+### ``LIKE``
 - Para buscar un patron especifico dentro de una columna en una consulta. Se definen usando dos comodines principales.
-1. **%**: Coincide con cualquier secuencia de caracteres. Puede ser usado al inicio o al final de una cadena.
-- *'A%'* cualquier valor que comience con 'A'. Ej: **SELECT * FROM empleados WHERE nombre LIKE 'A%'**
-- *'%A'* cualquier valor que termine con 'A'.
-- *'%A%'* cualquier valor que contenga con 'A'.
+1. ``%``: Coincide con cualquier secuencia de caracteres. Puede ser usado al inicio o al final de una cadena.
+- ``'A%'`` cualquier valor que comience con 'A'. Ej:
+ ````
+SELECT * FROM usuarios WHERE nombre LIKE 'A%'
+````
+- ``'%A'`` cualquier valor que termine con 'A'.
+- ``'%A%'`` cualquier valor que contenga con 'A'.
 
-2. **_**:(Guion Bajo) Coicide con un **solo caracter**.
-- *'A_n_'* Coincidirá con cualquier cadena que tenga cuatro caracteres, donde el primero sea 'A', el segundo sea cualquier carácter, el tercero sea 'n' y el cuarto sea cualquier carácter (como 'Ana', 'Aní').
+2. ``_``:(Guion Bajo) Coicide con un **solo caracter**.
+- ``'A_n_'`` Coincidirá con cualquier cadena que tenga cuatro caracteres, donde el primero sea 'A', el segundo sea cualquier carácter, el tercero sea 'n' y el cuarto sea cualquier carácter (como 'Ana', 'Aní').
 
-- Operador **NOT LIKE** hace lo inverso.
+- Operador ``NOT LIKE`` hace lo inverso.
 
 ### Operadores Relacionales
 
 - **Los operadores relacionales** en SQL son utilizados para realizar comparaciones entre valores y son fundamentales en las consultas para filtrar o evaluar datos.
 
 - **Principales Operadores Relacionales**
-1. **=** (Igual a):
+1. ``=`` (Igual a):
 - Compara si dos valores son iguales.
-2. **<> o !=** (diferente de):
+2. ``<> o !=`` (diferente de):
 - Compara si dos valores son diferentes.
-3. **< o >** (Mayo que o Menor que):
+3. ``< o >`` (Mayo que o Menor que):
 - Compara si el valor de la izq es menor o mayor que el de la derecha
-4. **BEETWEEN** (Entre un rango de valores):
-- Verifica si un valor está entre dos valores, inclusivo. Ej: **SELECT * FROM usuarios WHERE edad BETWEEN 20 AND 29**
-5. **IS NULL** y **IS NOT NULL** (Comparación de valores nulos):
-- Verifica si un valor es **NULL** o no es **NULL**. Ej: **SELECT * FROM usuarios WHERE direccion IS NULL**
+4. ``BEETWEEN`` (Entre un rango de valores):
+- Verifica si un valor está entre dos valores, inclusivo. Ej: 
+````
+SELECT * FROM usuarios WHERE edad BETWEEN 20 AND 29
+````
+5. ``IS NULL`` y ``IS NOT NULL`` (Comparación de valores nulos):
+- Verifica si un valor es **NULL** o NO es **NULL**. Ej: 
+````
+SELECT * FROM usuarios WHERE direccion IS NULL
+````
 
 ### Operadores Logicos
 
@@ -122,15 +207,23 @@
 
 - **Principales Operadores Lógicos en SQL:**
 
-1. **AND** (Y lógico):
+1. ``AND`` (Y lógico):
 - Devuelve **TRUE** si ambas condiciones son verdaderas.
-- Cobinar múltiples condiciones en una consulta. Ej: **SELECT * FROM usuarios WHERE edad > 26 AND nombre LIKE 'LE%'** Devuelve todos los valores mayores a 26 y que el nombre empiece con 'LE'.
+- Cobinar múltiples condiciones en una consulta. Ej:
+ ````
+ SELECT * FROM usuarios WHERE edad > 26 AND nombre LIKE 'LE%'
+ ````
+  Devuelve todos los valores mayores a 26 y que el nombre empiece con 'LE'.
 
-2. **OR** (O Lógico):
+2. ``OR`` (O Lógico):
 - Devuelve **TRUE** si alguna de las condiciones es verdadera.
 
-3. **NOT** (Negación Lógica):
+3. ``NOT`` (Negación Lógica):
 - Invierte el resultado de una condición, devolviendo **TRUE** cuando la condición es **FALSE** y viceversa.
 
-- **NOTA**: En consultas más complejas, es recomendable usar parentisis. Ej: 
-**SELECT * FROM empleados WHERE (salario > 2000 OR departamento_id = 3) AND NOT nombre = 'Carlos';**
+- **NOTA**: _En consultas más complejas, es recomendable usar parentisis_:
+```` 
+SELECT * FROM empleados
+WHERE (salario > 2000 OR departamento_id = 3)
+AND NOT nombre = 'Carlos';
+````
