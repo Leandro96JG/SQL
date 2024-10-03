@@ -1,5 +1,6 @@
+![SQL](mysql.svg "SQL") 
+![SQL](sql-seeklogo.svg)
 # SQL
-![SQL](mysql.svg "SQL")
 
 ## Comandos Principales
 
