@@ -1,4 +1,4 @@
-# SQL - Jonmircha
+# SQL
 ![SQL](mysql.svg "SQL")
 
 ## Comandos Principales
@@ -82,7 +82,7 @@ CREATE TABLE (nombre)
 
 - Elegir nuestra db que vamos a trabajar: 
 ````sql
-USE (nombre db)
+USE nombre db
 ````
 
 - Ver tablas de la db: 
@@ -176,6 +176,7 @@ IN (nombres de personas a buscar el registro)
 ### ``LIKE``
 - Para buscar un patron especifico dentro de una columna en una consulta. Se definen usando dos comodines principales.
 1. ``%``: Coincide con cualquier secuencia de caracteres. Puede ser usado al inicio o al final de una cadena.
+
 - ``'A%'`` cualquier valor que comience con 'A'. Ej:
  ````sql
 SELECT * FROM usuarios WHERE nombre LIKE 'A%'
@@ -219,8 +220,10 @@ SELECT * FROM usuarios WHERE direccion IS NULL
 1. ``AND`` (Y lógico):
 - Devuelve **TRUE** si ambas condiciones son verdaderas.
 - Cobinar múltiples condiciones en una consulta. Ej:
- ````
- SELECT * FROM usuarios WHERE edad > 26 AND nombre LIKE 'LE%'
+ ````sql
+ SELECT * FROM usuarios 
+ WHERE edad > 26 
+ AND nombre LIKE 'LE%'
  ````
   Devuelve todos los valores mayores a 26 y que el nombre empiece con 'LE'.
 
@@ -235,4 +238,34 @@ SELECT * FROM usuarios WHERE direccion IS NULL
 SELECT * FROM empleados
 WHERE (salario > 2000 OR departamento_id = 3)
 AND NOT nombre = 'Carlos';
+````
+
+## Sentencia ``UPDATE``
+
+- Se utiliza para modificar los datos existentes en una o más filas de una tabla. Puedes actualizar valores de una o más columnas y aplicar condiciones para determinar qué filas se van a modificar.
+
+````sql
+UPDATE usuarios
+SET correo = "leandro96@gmail.com", direccion = "Solo existo"
+WHERE usuario_id = 1;
+````
+
+### _NOTAS IMPORTANTES_:
+* **Cláusula** ``WHERE``: Es muy importante usar la cláusula ``WHERE`` para evitar modificar todas las filas de la tabla por accidente.
+
+* **Restricciones y llaves foráneas:** Asegurarse de que cualqier modificación NO viole las restricciones de la DB, como llaves foráneas, únicas o cualquier otra restricción.
+
+* **Reversibilidad**: Una vez realizada la sentencia ``UPDATE``, no se puede deshacer directamente. Por eso es recomendable realizar **BACKUPS** antes de hacer cambios masivos.
+
+## ``DELETE``
+- Borrar datos en una o mas filas
+- Tambien hay que tener en cuenta usar la cláusula ``WHERE`` si nó te podes mandar el moco de tu vida :).
+````sql
+DELETE FROM usuarios WHERE usuario_id = 2;
+````
+
+## ``TRUNCATE``
+- Para reiniciar toda la tabla desde cero (teniendo en cuenta lo id auto incrementables)
+````sql
+TRUNCATE TABLE usuarios;
 ````
