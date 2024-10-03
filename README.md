@@ -11,13 +11,13 @@ SHOW DATABASE
 
 ### 
 ````sql
-CREATE DATABASE (nombre db)
+CREATE DATABASE nombredb
 ````
 - Crear base de datos
 
 ### 
 ````sql
-DROP DATABASE (nombre db)
+DROP DATABASE nombredb
 ````
 - borra una base de datos
 
@@ -35,7 +35,7 @@ DROP DATABASE (nombre db)
 - Normalmente esto lo hace quien está administrando la base de datos, para otorgar permisos a quienes quieran trabajar con nuestra db 
 
 ````sql
-CREATE USER '(usuario)'@'(dominiodb)' IDENTIFIED BY '(contraseña)'
+CREATE USER 'usuario@dominiodb.com' IDENTIFIED BY '(contraseña)'
 ````
 
 - Para ingresar a la base de datos con el nombre de usuario creado desde la terminal:
@@ -50,27 +50,27 @@ e ingresar la contraseña asignada
 
 - Otorgar todos los privilegios al usuario asignado.
 ````sql
-GRANT ALL PRIVILEGES ON (Nombre DB) TO '(usuario)@(dominioDB)'
+GRANT ALL PRIVILEGES ON (Nombre DB) TO 'usuario@dominioDB.com'
 ```` 
 
 - Unas vez asignado cualquier privilegio, por buena practica, es necesario actualizar nuestra base de datos. Para esto existe el siguiente comando:
 ````sql
-FLUSH PRIVILEGES
+FLUSH PRIVILEGES;
 ````
 
 - Ver los privilegios que tiene un usuario: 
 ````sql
-SHOW GRANTS FOR '(usuario)'@'(dominioDB)'
+SHOW GRANTS FOR 'usuario@dominioDB.com';
 ````
 
 - Para quitar privilegios 
 ````sql
-REVOKE ALL GRANT OPTION FROM '(usuario)@'(dominiodb)'
+REVOKE ALL GRANT OPTION FROM 'usuario@dominiodb.com';
 ````
 
 - Eliminar usuario 
 ````sql
-DROP USER '(usuario)@'(dominiodb)'
+DROP USER 'usuario@dominiodb.com'
 ````
 
 ## Tablas
