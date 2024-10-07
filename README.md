@@ -264,7 +264,7 @@ SELECT * FROM usuarios WHERE edad BETWEEN 20 AND 29
 SELECT * FROM usuarios WHERE direccion IS NULL
 ```
 
-### Operadores Logicos
+### Operadores Lógicos
 
 - Se usan para combinar multiples condiciones en una consulta. Permiten aplicar lógica condicional (como "y","o","no") para filtrar resultados basados en múltiples criterios.
 
@@ -425,4 +425,34 @@ SELECT AVG(Precio) AS promedio_total FROM products;
 
 > Se utiliza para agrupar filas que tienen valores idénticos en una o más columnas. Luego, se pueden aplicar funciones de agrupamiento como ``COUNT()``, ``SUM()``, etc. Para realizar cálculos sobre cada grupo de datos.
 
+````sql
+SELECT nombre, precio, MAX(precio) AS precio_max FROM productos GROUP BY nombre, precio
+````
+
+## ``HAVING``
+
+> Se utiliza para filtrar los resultados de una consulta después de aplicar las funciones de agrupación o agregación en combinación con la cláusula ``GROUP BY``. A diferencia del ``WHERE``, que se usa para filtrar filas antes de la agregación, ``HAVING`` se aplica después de los grupos han sido formados.
+
+````sql
+SELECT nombre, precio, MAX(precio) AS precio_max FROM productos GROUP BY nombre, precio HAVING precio_max >= 10000;
+````
+
+## ``DISTINCT``
+
+> se utiliza para eliminar filas duplicadas de los resultados de una consulta, devolviendo solo valores únicos en las columnas especificadas. Es útil cuando deseas obtener una lista de valores distintos sin repetir entradas.
+
+````sql
+SELECT DISTINCT nombre FROM productos
+````
+
+> **Resultado**: Nombre de productos UNICOS.
+
+## ``ORDER BY``
+
+>  Se utiliza para ordenar los resultados de una consulta en función de una o más columnas. Puedes ordenar los resultados en orden **ascendente** ``ASC`` o **descendente** ``DESC``.
+
+````sql
+SELECT nombre, precio FROM productos ORDER BY nombre ASC;
+````
+- **Resultado**: Tabla con el nombre y precio, Ordenada de forma ascendente por el nomrbre.
 
