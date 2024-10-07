@@ -444,7 +444,7 @@ HAVING precio_max >= 10000;
 
 ## ``DISTINCT``
 
-> se utiliza para eliminar filas duplicadas de los resultados de una consulta, devolviendo solo valores únicos en las columnas especificadas. Es útil cuando deseas obtener una lista de valores distintos sin repetir entradas.
+> Se utiliza para eliminar filas duplicadas de los resultados de una consulta, devolviendo solo valores únicos en las columnas especificadas. Es útil cuando deseas obtener una lista de valores distintos sin repetir entradas.
 
 ````sql
 SELECT DISTINCT nombre 
@@ -464,3 +464,47 @@ ORDER BY nombre ASC;
 ````
 - **Resultado**: Tabla con el nombre y precio, Ordenada de forma ascendente por el nomrbre.
 
+> Tambien se puede ordenar segun una condición usando `WHERE` o `HAVING` pero siempre ``ORDER BY``va al final de la consulta sql.
+
+## ``INDEX``
+
+> Un índice en SQL es una estructura de datos que mejora la velocidad de las operaciones de consulta en una tabla. Funciona como un índice en un libro, permitiendo acceder más rápidamente a las filas de una tabla en función de los valores de una o más columnas. Sin embargo, aunque los índices mejoran la lectura de datos, pueden hacer que las operaciones de escritura (inserciones, actualizaciones y eliminaciones) sean más lentas debido a que los índices también deben mantenerse actualizados.
+
+### Tipos de índices
+
+1. Índice Primario ``(PK)``:
+- Se crea automáticamente cuando se define una columna como clave primaria.
+- Es único y no permite valores nulos.
+````sql
+CREATE TABLE empleados (
+   empleado_id INT PRIMARY KEY,
+   nombre VARCHAR(100)
+);
+````
+2. Índice único ``(UQ)``:
+- Garantiza que los valores en una columna o conjunto de columnas sean únicos.
+- No permite valores duplicados, pero sí permite valores nulos (con algunas excepciones en diferentes SGBD).
+````sql
+CREATE UNIQUE INDEX idx_nombre_unico
+ON empleados(nombre);
+````
+3. Índice no único **(normal)**:
+- Se usa para mejorar el rendimiento de las consultas, pero permite valores duplicados.
+````sql
+CREATE INDEX idx_nombre
+ON empleados(nombre);
+````
+4. Índice compuesto:
+- Se crea en más de una columna para optimizar consultas que involucran múltiples columnas.
+- El orden de las columnas en el índice es importante, ya que se optimiza para consultas que utilizan las columnas en ese orden.
+````sql
+CREATE INDEX idx_nombre_apellido
+ON empleados(nombre, apellido);
+````
+5. Índice de texto completo (Full-text index):
+- Se utiliza para optimizar la búsqueda de texto en columnas que contienen grandes volúmenes de texto, como artículos o descripciones.
+- Permite realizar búsquedas eficientes sobre texto extenso.
+````sql
+CREATE FULLTEXT INDEX idx_descripcion
+ON productos(descripcion);
+````
