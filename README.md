@@ -49,8 +49,8 @@ CREATE USER 'usuario@dominiodb.com' IDENTIFIED BY '(contraseña)'
 
 - Para ingresar a la base de datos con el nombre de usuario creado desde la terminal:
 
-```sql
-'mysql -u (usuario) -p'
+```cmd
+mysql -u (usuario) -p
 ```
 
 e ingresar la contraseña asignada
@@ -100,7 +100,7 @@ CREATE TABLE (nombre)
 - Elegir nuestra db que vamos a trabajar:
 
 ```sql
-USE nombre db
+USE nombre_db
 ```
 
 - Ver tablas de la db:
@@ -476,8 +476,8 @@ ORDER BY nombre ASC;
 - Se crea automáticamente cuando se define una columna como clave primaria.
 - Es único y no permite valores nulos.
 ````sql
-CREATE TABLE empleados (
-   empleado_id INT PRIMARY KEY,
+CREATE TABLE productos (
+   producto_id INT PRIMARY KEY,
    nombre VARCHAR(100)
 );
 ````
@@ -486,20 +486,20 @@ CREATE TABLE empleados (
 - No permite valores duplicados, pero sí permite valores nulos (con algunas excepciones en diferentes SGBD).
 ````sql
 CREATE UNIQUE INDEX idx_nombre_unico
-ON empleados(nombre);
+ON productos(nombre);
 ````
 3. Índice no único **(normal)**:
 - Se usa para mejorar el rendimiento de las consultas, pero permite valores duplicados.
 ````sql
 CREATE INDEX idx_nombre
-ON empleados(nombre);
+ON productos(nombre);
 ````
 4. Índice compuesto:
 - Se crea en más de una columna para optimizar consultas que involucran múltiples columnas.
 - El orden de las columnas en el índice es importante, ya que se optimiza para consultas que utilizan las columnas en ese orden.
 ````sql
-CREATE INDEX idx_nombre_apellido
-ON empleados(nombre, apellido);
+CREATE INDEX idx_nombre_descripcion
+ON productos(nombre, descripcion);
 ````
 5. Índice de texto completo (Full-text index):
 - Se utiliza para optimizar la búsqueda de texto en columnas que contienen grandes volúmenes de texto, como artículos o descripciones.
@@ -508,3 +508,113 @@ ON empleados(nombre, apellido);
 CREATE FULLTEXT INDEX idx_descripcion
 ON productos(descripcion);
 ````
+
+## Llave o Claves Foraneas
+
+> Es una columna o un conjunto de columnas que establece una relación entre dos tablas. La clave foránea en una tabla se utiliza para garantizar que los valores en una columna o conjunto de columnas coicidan con los valores de la clave primaria en otra tabla. Esto asegura la **integridad referencial** en la DB.
+
+### Por qué usar claves foráneas?
+
+- Para establecer relaciones entre tablas (como una relación de uno a muchos, uno a uno, o muchos a muchos).
+- Para asegurar que los valores en una columna de una tabla se correspondan con los valores en la clave primaria de otra tabla.
+- Para mantener la integridad referencial: Esto significa que no puedes insertar un valor en una columna de clave foránea si ese valor no existe en la tabla relacionada.
+
+### Como crear una clave foránea
+
+> Al definir una tabla, puedes agregar una clave foránea utilizando la instrucción ``FOREING KEY``
+
+````sql
+CREATE TABLE nombre_tabla (
+  columna1 INT PRIMARY KEY,
+  columna2 VARCHAR(255),
+  columna3 INT,
+  FOREIGN KEY (columna3) REFERENCES otra_tabla(columna_otra_tabla)
+);
+````
+## ``JOIN``
+>``JOIN`` en SQL se utiliza para combinar filas de dos o más tablas basándose en una condición relacionada. Normalmente, esta condición es una clave común entre las tablas (por ejemplo, una clave primaria y una clave foránea). Existen varios tipos de ``JOIN`` para diferentes situaciones.
+
+### Tipos de ``JOIN`` en SQL
+
+![JOIN](sql_join.png)
+
+
+1. ``INNER JOIN``:
+- Devuelve solo las filas donde hay coincidencias en ambas tablas.
+- Si una fila en una tabla no tiene una coincidencia en la otra, esa fila no se incluye en el resultado.
+**Sintaxis:**
+````sql
+SELECT columnas
+FROM tabla1
+INNER JOIN tabla2
+ON tabla1.columna_comun = tabla2.columna_comun;
+````
+**Ejemplo:**
+````sql
+SELECT empleados.nombre, departamentos.nombre
+FROM empleados
+INNER JOIN departamentos
+ON empleados.departamento_id = departamentos.departamento_id;
+````
+- Solo se mostrarán los empleados que tienen un departamento asociado.
+
+2. ``LEFT JOIN``(o `LEFT OUTER JOIN`):
+- Devuelve todas las filas de la tabla de la izquierda (primer tabla), incluso si no hay coincidencias en la tabla de la derecha.
+- Si no hay coincidencias, las columnas de la tabla de la derecha tendrán valores ``NULL``.
+
+**Sintaxis:**
+````sql
+SELECT columnas
+FROM tabla1
+LEFT JOIN tabla2
+ON tabla1.columna_comun = tabla2.columna_comun;
+````
+**Ejemplo:**
+````sql
+SELECT empleados.nombre, departamentos.nombre
+FROM empleados
+LEFT JOIN departamentos
+ON empleados.departamento_id = departamentos.departamento_id;
+````
+- Devuelve todos los empleados, incluso aquellos que no tienen un departamento asociado (las columnas del departamento serán ``NULL`` si no hay coincidencia).
+
+3. ``RIGHT JOIN`` (o ``RIGHT OUTER JOIN``):
+- Devuelve todas las filas de la tabla de la derecha (segunda tabla), incluso si no hay coincidencias en la tabla de la izquierda.
+- Si no hay coincidencias, las columnas de la tabla de la izquierda tendrán valores ``NULL``.
+
+**Sintaxis**:
+````sql
+SELECT columnas
+FROM tabla1
+RIGHT JOIN tabla2
+ON tabla1.columna_comun = tabla2.columna_comun;
+````
+**Ejemplo:**
+````sql
+SELECT empleados.nombre, departamentos.nombre
+FROM empleados
+RIGHT JOIN departamentos
+ON empleados.departamento_id = departamentos.departamento_id;
+````
+- Devuelve todos los departamentos, incluso aquellos que no tienen empleados asociados (las columnas del empleado serán NULL si no hay coincidencia).
+4. ``FULL JOIN`` (o ``FULL OUTER JOIN``):
+- Devuelve todas las filas cuando hay coincidencia en cualquiera de las tablas, o cuando no hay coincidencia.
+- Las filas que no tienen coincidencias en una de las tablas aparecerán con valores ``NULL`` en las columnas de la otra tabla.
+
+**Sintaxis**:
+````sql
+SELECT columnas
+FROM tabla1
+FULL JOIN tabla2
+ON tabla1.columna_comun = tabla2.columna_comun;
+````
+**Ejemplo:**
+````sql
+SELECT empleados.nombre, departamentos.nombre
+FROM empleados
+FULL JOIN departamentos
+ON empleados.departamento_id = departamentos.departamento_id;
+````
+- Devuelve todos los empleados y todos los departamentos, con valores ``NULL`` en las columnas que no tienen coincidencias.
+
+>Los ``JOIN`` son herramientas poderosas para trabajar con bases de datos relacionales, permitiendo combinar y extraer información de múltiples tablas de manera eficiente.
