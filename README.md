@@ -618,3 +618,95 @@ ON empleados.departamento_id = departamentos.departamento_id;
 - Devuelve todos los empleados y todos los departamentos, con valores ``NULL`` en las columnas que no tienen coincidencias.
 
 >Los ``JOIN`` son herramientas poderosas para trabajar con bases de datos relacionales, permitiendo combinar y extraer información de múltiples tablas de manera eficiente.
+
+## Ejemplo practico de mi base de datos
+> Para reemplezar las llaves foraneas de las tablas por alguna columna de la tabla asociada.
+**Ejemplo:**
+````sql
+select c.caballero_id, c.nombre, a.armadura,
+s.signo, r.rango, e.ejercito ,p.pais
+from caballeros c
+inner join armaduras a on c.armadura = a.armadura_id 
+inner join signos s on c.signo = s.signo_id 
+inner join rangos r on c.rango = r.rango_id 
+inner join ejercitos e on c.ejercito = e.ejercito_id 
+inner join paises p on c.pais = p.pais_id; 
+````
+
+## Subconsultas 
+
+> Las subconsultas en SQL, también conocidas como consultas anidadas o subqueries, son consultas que se incluyen dentro de otra consulta SQL. Estas subconsultas pueden ser utilizadas para realizar operaciones complejas en una consulta principal, como seleccionar datos que cumplan con ciertas condiciones basadas en el resultado de la subconsulta.
+
+### Tipos de Subconsultas
+1. **Subconsulta de una sola fila**: Devuelve solo una fila de resultados. Suele ser usada con operadores de comparación como ``=``, ``<``, ``>``, etc.
+2. **Subconsulta de múltiples filas**: Devuelve múltiples filas de resultados. Se utiliza con operadores como ``IN``, ``ANY``, ``ALL``, etc.
+3. **Subconsulta correlacionada**: Es una subconsulta que depende de cada fila de la consulta principal. No puede ejecutarse de manera independiente porque usa columnas de la consulta externa.
+4. **Subconsulta en la cláusula** ``FROM``: Se usa una subconsulta como si fuera una tabla dentro de la cláusula ``FROM``.
+
+### Sintaxis de una subconsulta
+> La subconsulta se coloca generalmente entre paréntesis ``( )`` y puede usarse en diversas partes de una consulta SQL.
+````sql
+SELECT e1.nombre
+FROM empleados e1
+WHERE salario > (SELECT AVG(salario) FROM empleados e2 WHERE e2.departamento_id = e1.departamento_id);
+````
+- La subconsulta calcula el salario promedio de cada departamento.
+- La consulta principal selecciona empleados cuyo salario es mayor al promedio de su propio departamento.
+
+### Subconsulta correlacionada
+
+> Una subconsulta correlacionada depende de la consulta externa y se ejecuta repetidamente, una vez por cada fila de la consulta externa.
+````sql
+SELECT e1.nombre
+FROM empleados e1
+WHERE salario > (SELECT AVG(salario) FROM empleados e2 WHERE e2.departamento_id = e1.departamento_id);
+````
+- La subconsulta calcula el salario promedio de cada departamento.
+- La consulta principal selecciona empleados cuyo salario es mayor al promedio de su propio departamento.
+
+### Subconsulta con ``JOIN``
+> Aunque las subconsultas y los JOIN sirven para combinar información de múltiples tablas, el uso de una subconsulta puede ser preferible cuando necesitas realizar cálculos o filtrar datos con más precisión.
+````sql
+SELECT nombre, salario
+FROM empleados
+WHERE salario > (SELECT AVG(salario) FROM empleados WHERE departamento_id = 1);
+````
+
+### Ejemplo con ``HAVING``
+
+- Puedes usar subconsultas con la cláusula ``HAVING``, que se aplica después de una agrupación (``GROUP BY``).
+````sql
+SELECT departamento_id, AVG(salario)
+FROM empleados
+GROUP BY departamento_id
+HAVING AVG(salario) > (SELECT AVG(salario) FROM empleados);
+````
+- La subconsulta calcula el salario promedio de todos los empleados.
+- La consulta principal agrupa los empleados por departamento y selecciona solo aquellos departamentos donde el salario promedio es mayor que el promedio general.
+
+## Vistas (Views)
+
+> Una vista (o view) es una tabla virtual que se basa en el resultado de una consulta SQL. A diferencia de las tablas regulares, una vista no almacena datos físicamente, sino que guarda una consulta que se ejecuta cada vez que la vista es utilizada. Las vistas pueden simplificar consultas complejas y mejorar la seguridad al restringir el acceso a ciertas columnas o filas
+
+### Caracteristicas de una vista
+- **Tabla virtual**: Una vista es esencialmente una consulta almacenada que se comporta como una tabla.
+- **No almacena datos**: La vista no contiene datos por sí misma; los datos provienen de las tablas subyacentes.
+- **Actualizable**: Dependiendo de la consulta, algunas vistas pueden ser actualizables, lo que significa que puedes usar ``INSERT``, ``UPDATE`` o ``DELETE`` en ellas, y los cambios se reflejarán en las tablas subyacentes.
+- **Mejora la seguridad**: Puedes restringir el acceso a ciertos datos al permitir que los usuarios accedan solo a la vista en lugar de a las tablas completas. 
+**Crear una vista:**
+````sql
+create view vista_caballeros as
+select c.caballero_id, c.nombre, a.armadura,
+s.signo, r.rango, e.ejercito ,p.pais
+from caballeros c
+inner join armaduras a on c.armadura = a.armadura_id 
+inner join signos s on c.signo = s.signo_id 
+inner join rangos r on c.rango = r.rango_id 
+inner join ejercitos e on c.ejercito = e.ejercito_id 
+inner join paises p on c.pais = p.pais_id; 
+````
+### Usar una vista
+
+````sql
+SELECT * FROM vista_caballeros;
+````
