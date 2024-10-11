@@ -230,6 +230,34 @@ SELECT * FROM usuarios WHERE nombre LIKE 'A%'
 
 - Operador `NOT LIKE` hace lo inverso.
 
+### ``LIMIT``
+
+> Se utiliza para restringir el número de filas devueltas por una consulta
+````sql
+SELECT * 
+FROM empleados
+LIMIT 5;
+````
+``LIMIT`` **con desplazamiento** ``OFFSET``
+> También puedes combinar LIMIT con OFFSET para saltar una cantidad específica de filas antes de empezar a devolver los resultados.
+
+````sql
+SELECT * 
+FROM empleados
+LIMIT 5 OFFSET 5;
+````
+- **OFFSET 5**: Es el número de filas que se omitirán antes de comenzar a devolver las filas solicitadas.
+
+Ejemplo con ``ORDER BY`` y ``LIMIT``
+
+````sql
+SELECT nombre, fecha_contratacion
+FROM empleados
+ORDER BY fecha_contratacion DESC
+LIMIT 3;
+````
+
+
 ### Operadores Relacionales
 
 - **Los operadores relacionales** en SQL son utilizados para realizar comparaciones entre valores y son fundamentales en las consultas para filtrar o evaluar datos.
@@ -710,3 +738,70 @@ inner join paises p on c.pais = p.pais_id;
 ````sql
 SELECT * FROM vista_caballeros;
 ````
+
+## Comportamientos entre operaciones de tipo ``DELETE`` y ``UPDATE``
+> En las bases de datos relacionales, los comportamientos en operaciones de actualización (UPDATE) y eliminación (DELETE) para las claves foráneas son configuraciones que determinan cómo se manejan las relaciones entre tablas cuando ocurre una operación sobre una fila referenciada. Estos comportamientos se especifican mediante las cláusulas ON DELETE y ON UPDATE en las claves foráneas.
+
+**Tipos de comportamientos:**
+1. CASCADE
+2. SET NULL
+3. SET DEFAULT
+4. RESTRICT
+5. NO ACTION
+
+## Transacciones
+
+> Las transacciones se utilizan para asegurar la integridad y consistencia de los datos en una base de datos. En caso de que ocurra un error, se puede revertir (o deshacer) el conjunto completo de operaciones para dejar la base de datos en su estado anterior.
+
+**Propiedades ACID de las transacciones**
+1. **Atomicidad**: Todas las operaciones dentro de una transacción deben completarse con éxito o ninguna debe realizarse. Si alguna operación falla, todas las demás deben revertirse.
+2. **Consistencia**: Al finalizar la transacción, la base de datos debe pasar de un estado consistente a otro. Esto significa que las reglas definidas por las restricciones y claves en la base de datos deben mantenerse.
+3. **Aislamiento**: Los cambios realizados por una transacción no deben ser visibles para otras transacciones hasta que se completen (mediante ``COMMIT``).
+4. **Durabilidad**:  Una vez que una transacción ha sido confirmada (mediante COMMIT), sus cambios son permanentes en la base de datos, incluso en caso de fallo del sistema.
+
+**Sentencias para trabajar con transacciones**
+- **START TRANSACTION**: Inicia una nueva transacción.
+- **COMMIT**: Guarda los cambios realizados en la transacción en la base de datos.
+- **ROLLBACK**: Revierte todos los cambios realizados por la transacción desde el inicio.
+- **SAVEPOINT**: Define un punto dentro de una transacción al que se puede volver si es necesario.
+- **RELEASE SAVEPOINT**: Elimina un punto de guardado definido previamente.
+- **ROLLBACK TO SAVEPOINT**: Revierte la transacción hasta un punto de guardado específico.
+
+**Ejemplo basico**:
+````sql
+START TRANSACTION;
+
+-- Operaciones dentro de la transacción
+UPDATE cuentas SET saldo = saldo - 100 WHERE cuenta_id = 1;
+UPDATE cuentas SET saldo = saldo + 100 WHERE cuenta_id = 2;
+
+-- Si ambas operaciones se ejecutan correctamente, confirmar los cambios
+COMMIT;
+
+-- Si ocurre un error en alguna operación, revertir los cambios
+-- ROLLBACK;
+````
+Uso de ``SAVEPOINT`` y ``ROLLBACK``
+
+````sql
+START TRANSACTION;
+
+UPDATE cuentas SET saldo = saldo - 100 WHERE cuenta_id = 1;
+
+SAVEPOINT sp1;
+
+UPDATE cuentas SET saldo = saldo + 100 WHERE cuenta_id = 2;
+
+-- Si algo falla en esta parte de la transacción
+ROLLBACK TO sp1; -- Revertir solo las operaciones realizadas después del SAVEPOINT
+
+-- Luego confirmar los cambios
+COMMIT;
+````
+
+
+> Se puede encriptar contraseñas en la base de datos. Para mas info Chatgpt o Videos de youtube
+
+Falta ver ``PROCEDURE`` que son funciones en codigo sql y los ``TRIGGERS`` que son funciones que se disparan despues de realizar una ejecucion. 
+
+# Fin... O continuara...
